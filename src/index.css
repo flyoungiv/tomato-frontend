@@ -1,4 +1,29 @@
-.container {
-  width: 50%;
-  margin: 10% auto;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  margin: 5% auto;
+  align-items: center;
 }
+
+.metadata-container {
+  margin-inline: 2rem;
+}
+
+.header {
+  margin: auto
+}
+
+.table-container {
+  width: 50%;
+  margin: auto;
+}
+
+.chart-container {
+  margin: 4rem auto;
+}
+
+/* overrides */
+.MuiStack-root{
+  align-items: flex-start;
+}
+

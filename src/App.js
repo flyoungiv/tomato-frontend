@@ -1,25 +1,46 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { DataGrid } from '@mui/x-data-grid';
+// import Button from '@mui/material/Button';
+// import Stack from '@mui/material/Stack';
+import { Typography } from '@mui/material';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+import Chart from './Chart';
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+const columns = [
+  { field: 'id', headerName: 'Id', width: 70 },
+  { field: 'name', headerName: 'Name', width: 70 },
+  { field: 'currency', headerName: 'Currency', width: 130 },
+  { field: 'phone', headerName: 'Phone', width: 130 },
+  {
+    field: 'email',
+    headerName: 'Email',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'address',
+    headerName: 'Address',
+    description: 'This column has a value getter and is not sortable.',
+    sortable: false,
+    width: 160,
+    valueGetter: (params) =>
+      `${params.row.address || ''} USA`,
+  },
 ];
 
-export default function App() {
+// const rows = [
+//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+// ];
+
+export default function DataTable() {
   const [data, setData] = React.useState([])
 
   React.useEffect(() => {
@@ -31,39 +52,40 @@ export default function App() {
   }, [])
 
   return (
-    <div className="container">
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Currency</TableCell>
-              <TableCell>Phone</TableCell> 
-              <TableCell>Email</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Zip</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row, index) => (
-              <TableRow
-                key={index}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.currency}</TableCell>
-                <TableCell>{row.phone}</TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.address}</TableCell>
-                <TableCell>{row.postalZip}</TableCell>
-                
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div className="page-container">
+      {/* <div className="metadata-container">
+        <Stack direction="column" spacing={2}>
+          <Typography variant="h5" component="h5">
+            Repositories
+          </Typography>
+          <Button href="#text-buttons">Python Back-end</Button>
+          <Button href="#text-buttons">React Front-end</Button>
+          <Button href="#text-buttons" disabled>Angular Front-end</Button>
+        </Stack>
+      </div> */}
+      <Typography variant="h2" component="h2">
+        🏅 Olympic Medals & Population
+      </Typography>
+      <Typography variant="h6" component="h6">Does a larger population mean more medals won?</Typography>
+
+      <div className="chart-container">
+        <Chart />
+      </div>
+      <div className="table-container">
+        <div style={{ height: 400, width: '100%' }}>
+          <DataGrid
+            rows={data}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            checkboxSelection
+          />
+        </div>
+      </div>
     </div>
   );
 }
