@@ -15,7 +15,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/List';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -29,7 +28,7 @@ const columns = [
   { field: 'medals', headerName: 'Total Medals', width: 70 },
 ];
 
-const drawerWidth = 240;
+const drawerWidth = 360;
 
 export default function App(props) {
   const { window } = props;
@@ -54,45 +53,44 @@ export default function App(props) {
       <Divider />
       <Divider />
       <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <GitHubIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Repositories"} />
-            </ListItemButton>
-          </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <LinkIcon />
+            </ListItemIcon>
+            <Stack direction="column" spacing={2}>
+              <Button href="https://tomato-a5c7p2ktpa-uc.a.run.app/docs">API Docs [Fast API]</Button>
+              <Button href="https://tomato-frontend-react.vercel.app/">Frontend 1 [React]</Button>
+              <Button href="https://tomato-frontend-angular.vercel.app/">Fronted 2 [Angular]</Button>
+            </Stack>
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
       <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <LinkIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Links"} />
-            </ListItemButton>
-          </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <GitHubIcon />
+            </ListItemIcon>
+            <Stack direction="column" spacing={2}>
+              <Button href="https://github.com/flyoungiv/tomato">Python Backend</Button>
+              <Button href="https://github.com/flyoungiv/tomato-frontend-react">React Frontend</Button>
+              <Button href="https://github.com/flyoungiv/tomato-frontend-angular">Angular Frontend</Button>
+            </Stack>
+          </ListItemButton>
+        </ListItem>
       </List>
-      <Divider />
-      <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <InfoIcon />
-              </ListItemIcon>
-              <ListItemText primary={"Stack Info"} />
-            </ListItemButton>
-          </ListItem>
-      </List>
-      <Stack direction="column" spacing={2}>
-          <Typography variant="h5" component="h5">
-            Repositories
-          </Typography>
-          <Button href="#text-buttons">Python Back-end</Button>
-          <Button href="#text-buttons">React Front-end</Button>
-          <Button href="#text-buttons" disabled>Angular Front-end</Button>
-        </Stack>
+      <Divider />      {/* <List>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <InfoIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Stack Info"} />
+          </ListItemButton>
+        </ListItem>
+      </List> */}
     </div>
   );
 
@@ -160,31 +158,31 @@ export default function App(props) {
       >
         <Toolbar />
         <div className="page-container">
-        <Typography variant="h2" component="h2">
-        🏅 Olympic Medals & Population
-      </Typography>
-      <Typography variant="h6" component="h6">Does a larger population mean more medals won?</Typography>
+          <Typography variant="h2" component="h2">
+            🏅 Olympic Medals & Population
+          </Typography>
+          <Typography variant="h6" component="h6">Does a larger population mean more medals won?</Typography>
 
-      <div className="chart-container">
-        <Chart />
-      </div>
-      <div className="table-container">
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid
-            getRowId={(row)=>row.country_code}
-            rows={data}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-          />
+          <div className="chart-container">
+            <Chart />
+          </div>
+          <div className="table-container">
+            <div style={{ height: 400, width: '100%' }}>
+              <DataGrid
+                getRowId={(row) => row.country_code}
+                rows={data}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                  },
+                }}
+                pageSizeOptions={[5, 10]}
+                checkboxSelection
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      </div>
       </Box>
     </Box>
   );
