@@ -37,7 +37,7 @@ export default function App(props) {
 
   React.useEffect(() => {
     console.log('start call')
-    fetch('http://localhost:8000/countries')
+    fetch('http://localhost:8000/sqlalchemy')
       .then(res => res.json())
       .then(body => setData(body))
       .catch(e => console.log(e))
