@@ -24,8 +24,10 @@ import Chart from './Chart';
 
 const columns = [
   { field: 'country_code', headerName: 'ISO3', width: 70 },
-  { field: 'country', headerName: 'Country', width: 180 },
-  { field: 'medals', headerName: 'Total Medals', width: 70 },
+  { field: 'country', headerName: 'Country', width: 200 },
+  { field: 'medals', headerName: 'Total Medals', width: 100 },
+  { field: 'population', headerName: 'Population', width: 100 },
+  { field: 'ratio', headerName: 'Medals / Population (10M)', width: 200 },
 ];
 
 const drawerWidth = 360;
@@ -34,14 +36,23 @@ export default function App(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [data, setData] = React.useState([])
+  const [chartData, setChartData] = React.useState()
 
   React.useEffect(() => {
     console.log('start call')
-    fetch('https://tomato-a5c7p2ktpa-uc.a.run.app/sqlalchemy')
+    fetch('http://localhost:8000/all-countries')
       .then(res => res.json())
       .then(body => setData(body))
       .catch(e => console.log(e))
   }, [])
+
+  const fetchCountryDetail = (country_code = 'USA') => {
+    console.log(`query for ${country_code}`)
+    fetch(`http://localhost:8000/countries/${country_code}/detail`)
+      .then(res => res.json())
+      .then(body => setChartData(body))
+      .catch(e => console.log(e))
+  } 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -164,7 +175,7 @@ export default function App(props) {
           <Typography variant="h6" component="h6">Does a larger population mean more medals won?</Typography>
 
           <div className="chart-container">
-            <Chart />
+            <Chart data={chartData} />
           </div>
           <div className="table-container">
             <div style={{ height: 400, width: '100%' }}>
@@ -178,7 +189,7 @@ export default function App(props) {
                   },
                 }}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
+                onRowClick={(row) => fetchCountryDetail(row.id)}
               />
             </div>
           </div>

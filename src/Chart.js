@@ -1,28 +1,42 @@
 import * as React from 'react';
 import { LineChart } from '@mui/x-charts/LineChart';
 
-const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
-const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
-const xLabels = [
-  'Page A',
-  'Page B',
-  'Page C',
-  'Page D',
-  'Page E',
-  'Page F',
-  'Page G',
-];
+const defaultSeries = [
+  {
+    "year": "1992",
+    "medals": 1.0,
+    "population": 2.67
+  }]
 
-export default function SimpleLineChart() {
+export default function SimpleLineChart({ data }) {
+
+  const getSeriesData = (series) => {
+    const years = []
+    const medals = []
+    const population = []
+
+    series.forEach(year => {
+      years.push(year.year)
+      medals.push(year.medals)
+      population.push(year.population)
+    })
+
+    return [years, medals, population]
+  }
+
+  const series = data ? data.series : defaultSeries
+
+  const [years, medals, population] = getSeriesData(series)
+
   return (
     <LineChart
-      width={500}
+      width={900}
       height={300}
       series={[
-        { data: pData, label: 'pv' },
-        { data: uData, label: 'uv' },
+        { data: medals, label: 'Medals' },
+        { data: population, label: 'Population (10M people)' },
       ]}
-      xAxis={[{ scaleType: 'point', data: xLabels }]}
+      xAxis={[{ scaleType: 'point', data: years }]}
     />
   );
 }
